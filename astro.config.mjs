@@ -9,4 +9,9 @@ export default defineConfig({
   base,
   integrations: [tailwind()],
   output: "static",
+  i18n: {
+    defaultLocale: "es",
+    locales: ["es", "en"],
+    routing: { prefixDefaultLocale: false },
+  },
 });

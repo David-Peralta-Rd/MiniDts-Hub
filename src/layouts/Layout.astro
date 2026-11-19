@@ -4,6 +4,14 @@ const { title = "MiniDts-Hub" } = Astro.props;
 const base = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : import.meta.env.BASE_URL + "/";
+const baseNoSlash = base.replace(/\/$/, "");
+const locale = Astro.currentLocale || "es";
+const withoutBase = Astro.url.pathname.startsWith(baseNoSlash)
+  ? Astro.url.pathname.slice(baseNoSlash.length)
+  : Astro.url.pathname;
+const withoutLocale = withoutBase.replace(/^\/en(\/|$)/, "/");
+const esHref = `${baseNoSlash}${withoutLocale === "/" ? "/" : withoutLocale}`;
+const enHref = `${baseNoSlash}/en${withoutLocale === "/" ? "/" : withoutLocale}`;
 ---
 <!doctype html>
 <html lang="es">
@@ -16,9 +24,14 @@ const base = import.meta.env.BASE_URL.endsWith("/")
     <header class="w-full px-6 py-4 backdrop-blur-glass bg-glass border-b border-glass">
       <nav class="max-w-7xl mx-auto flex items-center justify-between">
         <a href={base} class="font-bold text-xl">MiniDts-Hub</a>
-        <div class="flex gap-4">
-          <a href={`${base}projects/`} class="hover:underline">Proyectos</a>
-          <a href={`${base}news/`} class="hover:underline">Novedades</a>
+        <div class="flex gap-4 items-center">
+          <a href={`${base}projects/`} class="hover:underline">{locale === "en" ? "Projects" : "Proyectos"}</a>
+          <a href={`${base}news/`} class="hover:underline">{locale === "en" ? "News" : "Novedades"}</a>
+          <div class="flex gap-1 ml-2 text-sm">
+            <a href={esHref} class={locale === "es" ? "font-bold text-sky-300" : "text-slate-400 hover:text-slate-200"}>ES</a>
+            <span class="text-slate-600">|</span>
+            <a href={enHref} class={locale === "en" ? "font-bold text-sky-300" : "text-slate-400 hover:text-slate-200"}>EN</a>
+          </div>
         </div>
       </nav>
     </header>
