@@ -1,0 +1,21 @@
+---
+import Layout from "@layouts/Layout.astro";
+import type { NewsItem } from "@modules/news/public";
+import newsData from "../../generated/news.json";
+
+const sorted = (newsData as NewsItem[]).slice().sort((a, b) => b.version.localeCompare(a.version));
+---
+<Layout title="Novedades — MiniDts-Hub">
+  <section class="max-w-7xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8">Novedades</h1>
+    <div class="space-y-6">
+      {sorted.map((n) => (
+        <article class="glass p-6">
+          <span class="text-xs text-slate-400">{n.version} · {n.category}</span>
+          <h2 class="text-xl font-semibold mt-1">{n.title}</h2>
+          <p class="text-slate-300 mt-2">{n.summary}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

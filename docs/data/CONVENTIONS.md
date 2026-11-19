@@ -1,8 +1,11 @@
 # Convenciones de datos — MiniDts-Hub
 
-Columnas base (definidas una vez, heredadas):
-- id, created_at, updated_at (deleted_at solo si hay borrado lógico).
+No hay base de datos. Los datos viven en archivos TOML bajo `src/content/`.
 
-Tipos exactos de PostgreSQL; parámetros NOT NULL, DEFAULT, UNIQUE, CHECK, FK con ON DELETE, índices para consultas reales de v1.
-Valores que cambian con el tiempo se copian en el registro.
-Máx. 2 columnas reservadas por tabla, nulables, con razón.
+Columnas/campos base (definidos una vez, heredados):
+- id, title, summary, created_at, updated_at.
+
+Tipos: strings, arrays de strings, fechas ISO (`YYYY-MM-DD`) y fechas de versionado (`YYYY.MM.DD` o `YYYY-MM-DD`).
+Valores que cambian con el tiempo se copian en el registro (no se referencian).
+
+Archivos TOML individuales por entidad; un archivo por proyecto/novedad.

@@ -3,23 +3,33 @@
 ## Contexto y contenedores
 ```mermaid
 graph TD
-  A[Cliente] --> B[Backend]
-  B --> C[(Base de datos)]
+  A[Visitante] --> B[GitHub Pages (estático)]
+  B --> C[Assets generados en build]
 ```
 
 ## Mapa de módulos
-- <módulo> — base | feature — <dependencias>
+- `kernel` — base — sin dependencias de features.
+- `projects` — feature — depende de `kernel`.
+- `news` — feature — depende de `kernel`.
+
+<!-- modules -->
+
+
 
 ## Reglas de capas y datos
 - interface → application → domain; infrastructure implementa puertos.
-- Cada módulo es dueño de sus tablas; referencia por id.
+- Cada módulo es dueño de sus datos (archivos TOML); referencia por id.
+- Grafo de dependencias acíclico y declarado arriba.
 
 ## Esqueleto andante
-<rebanada vertical mínima>
+Una página Home que lista proyectos y novedades a partir de TOML, con build estático, `astro check` verde y deploy a GitHub Pages.
 
 ## Evolución prevista
 | Señal medible | Umbral | Siguiente paso | Qué lo habilita ya |
 |---|---|---|---|
+| Proyectos > 50 | build > 30s | paginación en build | loader por lotes |
+| Novedades > 100 | listado lento | archivo por año | loader por año |
 
 ## Para investigar
-- <términos exactos>
+- Astro content collections custom loader (Astro 5).
+- Tailwind v4 con Vite.

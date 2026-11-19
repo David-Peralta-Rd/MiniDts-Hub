@@ -1,6 +1,6 @@
 # MiniDts-Hub
 
-<una línea: qué es y para quién>
+Sitio estático que muestra software y configuraciones minimalistas para Linux.
 
 ## Novedades
 - v0.1.0 — estructura inicial.
@@ -8,7 +8,14 @@
 ## Cómo correrlo
 
 ```bash
-docker compose up
+pnpm install
+pnpm dev
+```
+
+Build de producción:
+
+```bash
+pnpm build
 ```
 
 ## Skills

@@ -1,0 +1,5 @@
+Metadata-Version: 2.4
+Name: mini-dts-hub-tools
+Version: 0.1.0
+Summary: Tooling for MiniDts-Hub docs and modules
+Requires-Python: >=3.11

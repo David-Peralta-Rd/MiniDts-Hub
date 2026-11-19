@@ -1,13 +1,16 @@
 # Roadmap — MiniDts-Hub
 
 ## Ahora (v1)
-- <alcance del MVP>
+- Sitio estático con Proyectos y Novedades desde TOML.
+- Diseño glassmorphism responsive full-width.
+- Deploy a GitHub Pages.
 
 ## Siguiente
-- <lo que sigue>
+- Filtros por tags, búsqueda client-side.
+- Paginación de novedades.
 
 ## Después
-- <más adelante>
+- Modo oscuro/claro, i18n.
 
 ## Ideas y futuros desarrollos
-- <idea>: por qué no ahora; qué ya lo habilita
+- RSS de novedades: por qué no ahora; ya lo habilita el loader.

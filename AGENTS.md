@@ -1,19 +1,24 @@
 # AGENTS.md — MiniDts-Hub
 
 ## Stack
-<lenguaje, framework, base de datos y versión de cada uno>
+- Lenguaje: TypeScript (strict) + Python 3.11+ (tooling)
+- Framework: Astro 5 (SSG)
+- Estilos: Tailwind CSS 3
+- Contenido: TOML (smol-toml + zod en build)
+- Gestor: pnpm (frontend), uv (tooling)
+- Base de datos: ninguna (sitio estático)
 
 ## Comandos
-- Instalar: <comando>
-- Test: <comando>
-- Lint y tipos: <comando>
-- Arquitectura: <comando>
-- Humo de importación: <comando>
-- Rutas: <comando>
-- docs-check: <comando>
-- new-module: <comando>
-- suite: <comando>
-- Migraciones: <comando>
+- Instalar: `pnpm install` (frontend) y `uv sync` (tooling)
+- Test: `pnpm test`
+- Lint y tipos: `pnpm astro check && pnpm typecheck`
+- Arquitectura: `uv run docs-check`
+- Humo de importación: `pnpm build`
+- Rutas: `pnpm dev`
+- docs-check: `uv run docs-check` (o `uv run docs-check --write`)
+- new-module: `uv run nuevo-modulo <nombre>` (stack auto: ts)
+- suite: `pnpm build && pnpm astro check && pnpm typecheck && uv run docs-check`
+- Migraciones: N/A (sin base de datos)
 - Levantar prod: `cd src && docker compose up --build -d`
 - Levantar dev: `cd src && docker compose -f docker-compose.dev.yml up --build`
 - Rust (si aplica): `cargo fmt --check`, `cargo clippy`, `cargo test`

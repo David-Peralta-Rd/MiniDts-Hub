@@ -7,8 +7,10 @@ Cada tarea: menos de 2 horas, toca un solo módulo y como máximo 3 archivos fue
 
 | ID | Hito | Tipo | Nivel | Depende | Módulo | Título | Estado |
 |----|------|------|-------|---------|--------|--------|--------|
-| T01 | 0 | [YO] | 3 | — | — | Activar el esqueleto andante desde la terminal de OpenCode | pendiente |
-| T02 | 0 | [YO] | 3 | T01 | — | Revisar entrypoints, Dockerfiles, cli.py, lockfile y amenazas | pendiente |
+| T01 | 0 | [YO] | 3 | — | — | Activar el esqueleto andante (Astro dev/build, Home con proyectos y novedades) | pendiente |
+| T02 | 0 | [YO] | 3 | T01 | — | Revisar entrypoints, configs, dependencias y amenazas | pendiente |
+| T03 | 1 | [DELEGAR] | 2 | T02 | projects | Añadir filtros por tags en Proyectos | pendiente |
+| T04 | 1 | [DELEGAR] | 2 | T02 | news | Paginación de novedades por año | pendiente |
 
 Convenciones:
 - Nivel 1 (mecánica): esquemas, CRUD sobre un patrón existente, ajustes de Docker, refactors acotados, documentos de unidad. Modelo económico.
@@ -17,6 +19,8 @@ Convenciones:
 - Las tarjetas completas viven en `docs/tasks/Txx.md`. Las tareas del hito 1 son las primeras que se detallan; el resto va en el índice con una línea de contrato.
 - Ninguna tarea asume trabajo [YO] no hecho.
 - La verificación del agente es un solo comando no interactivo (código de salida 0 = ok), sin navegador ni red.
+- Verificación del agente para T01: `pnpm build` (exit 0).
+- Verificación del agente para T02: `pnpm astro check && pnpm typecheck`.
 
 ## Detalla Txx
 Para generar una tarjeta completa, pide `Detalla Txx` al agente. Campos mínimos:

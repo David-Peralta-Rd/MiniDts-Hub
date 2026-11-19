@@ -16,4 +16,12 @@ esta debe funcionar categorizada por fecha de versionado, se usara la siguiente:
 con responsive adaptativo, lo que se diferenciara sera que antes de llegar a las esquinas se usara un formato de bordeado y estilo visual "Glassmorphism"
 Referencia: <opcional: URL, archivo adjunto o descripción de algo que quiero imitar> Con estilo directo de entender, que la propia web se explique a si misma sin procesos complejos para el visitante.
 
-Supuestos: (el agente completa)
+Supuestos:
+- Arquetipo: sitio estático en GitHub Pages (sin backend, sin base de datos, sin Docker).
+- Stack frontend: Astro + TypeScript (strict) + Tailwind CSS, gestor pnpm.
+- Contenido TOML de proyectos/novedades se valida en build (script Node) y se genera JSON tipado; no se parsea en el navegador.
+- Tooling de documentación y scaffold se mantiene en Python (`tools/`) con `uv`/`pyproject.toml`.
+- Tests: Vitest (unit, kernel/loaders) + `astro check` (tipos). E2E con Playwright fuera del MVP.
+- Node LTS v26 disponible en el entorno; pnpm se instala si falta.
+- Sin autenticación, sin secretos de runtime; seguridad se reduce a CSP, saneado de contenido y auditoría de dependencias.
+- Fecha de versionado de novedades: "year.month.day" o "year-month-day" (ej. "26.11.19" / "26-11-19").

@@ -6,11 +6,7 @@
 """Scaffold a new module adapted to this project's architecture.
 
 Usage:
-    uv run nuevo-modulo <nombre> [--stack python|rust|auto] [--dest PATH]
-
-Bootstrap generates/adjusts the templates under templates/module/ and this
-script to match the architecture it produced. Do not edit by hand; rerun
-bootstrap if the conventions change.
+    uv run nuevo-modulo <nombre> [--stack python|rust|ts|auto] [--dest PATH]
 """
 from __future__ import annotations
 
@@ -23,7 +19,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATES = ROOT / "docs" / "templates" / "module"
-ARCH = ROOT / "ARCHITECTURE.md"
+ARCH = ROOT / "docs" / "ARCHITECTURE.md"
 TASKS = ROOT / "docs" / "tasks"
 
 
@@ -39,6 +35,8 @@ def detect_stack() -> str:
         return "hybrid"
     if (ROOT / "Cargo.toml").exists():
         return "rust"
+    if (ROOT / "package.json").exists():
+        return "ts"
     return "python"
 
 
@@ -60,7 +58,7 @@ def copy_template(src: Path, dst: Path, ctx: dict[str, str]) -> None:
             target.mkdir(parents=True, exist_ok=True)
             continue
         target.parent.mkdir(parents=True, exist_ok=True)
-        if item.suffix in {".py", ".rs", ".toml", ".md", ".txt", ".yml", ".yaml"}:
+        if item.suffix in {".py", ".rs", ".toml", ".md", ".txt", ".yml", ".yaml", ".ts", ".astro", ".css", ".json"}:
             target.write_text(render(item.read_text(), ctx), encoding="utf-8")
         else:
             shutil.copy2(item, target)
@@ -82,7 +80,7 @@ def update_architecture(name: str) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Crea un nuevo modulo")
     ap.add_argument("name")
-    ap.add_argument("--stack", default="auto", choices=["auto", "python", "rust", "hybrid"])
+    ap.add_argument("--stack", default="auto", choices=["auto", "python", "rust", "hybrid", "ts"])
     ap.add_argument("--dest", default=None)
     args = ap.parse_args()
 
@@ -94,7 +92,7 @@ def main() -> int:
 
     stack = detect_stack() if args.stack == "auto" else args.stack
     if stack == "hybrid":
-        stack = "python"  # default to python; bootstrap can override via config
+        stack = "python"
 
     tpl = TEMPLATES / stack
     if not tpl.exists():
@@ -111,35 +109,41 @@ def main() -> int:
     if args.dest:
         dst = Path(args.dest).resolve()
     else:
-        base = ROOT / ("src" if stack == "python" else "crates")
+        if stack == "ts":
+            base = ROOT / "src" / "modules"
+        elif stack == "python":
+            base = ROOT / "src"
+        else:
+            base = ROOT / "crates"
         dst = base / name
 
-    # Atomic: build in temp then move
     tmp = dst.with_name(dst.name + ".tmp")
     if tmp.exists():
         shutil.rmtree(tmp)
     try:
         copy_template(tpl, tmp, ctx)
-        # tests
-        test_dst = ROOT / "tests" if stack == "python" else dst / "tests"
-        test_tpl = TEMPLATES / stack / "tests"
-        if test_tpl.exists():
-            copy_template(test_tpl, test_dst / name, ctx) if False else None
         tmp.replace(dst)
     except Exception as e:
         shutil.rmtree(tmp, ignore_errors=True)
         print(f"error: {e}", file=sys.stderr)
         return 1
 
-    # root-level test
-    tests_dir = ROOT / "tests"
-    tests_dir.mkdir(exist_ok=True)
-    test_file = tests_dir / f"test_{name}.py"
-    if not test_file.exists():
-        test_file.write_text(
-            f"from {name}.public import hello\n\n\ndef test_hello() -> None:\n    assert hello() == \"hello from {name}\"\n",
-            encoding="utf-8",
-        )
+    if stack == "python":
+        tests_dir = ROOT / "tests"
+        tests_dir.mkdir(exist_ok=True)
+        test_file = tests_dir / f"test_{name}.py"
+        if not test_file.exists():
+            test_file.write_text(
+                f"from {name}.public import hello\n\n\ndef test_hello() -> None:\n    assert hello() == \"hello from {name}\"\n",
+                encoding="utf-8",
+            )
+    elif stack == "ts":
+        test_file = dst / "public.test.ts"
+        if not test_file.exists():
+            test_file.write_text(
+                'import { hello } from "./public";\n\ntest("hello", () => {\n  expect(hello()).toBe("hello from ' + name + '");\n});\n',
+                encoding="utf-8",
+            )
 
     update_architecture(name)
 

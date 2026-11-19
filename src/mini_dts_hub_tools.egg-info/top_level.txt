@@ -1,0 +1,7 @@
+content
+generated
+kernel
+layouts
+modules
+pages
+styles

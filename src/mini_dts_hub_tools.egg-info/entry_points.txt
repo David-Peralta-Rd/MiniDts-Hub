@@ -1,0 +1,3 @@
+[console_scripts]
+docs-check = tools.docs_check:main
+nuevo-modulo = tools.nuevo_modulo:main

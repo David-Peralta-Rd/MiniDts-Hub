@@ -1,0 +1,41 @@
+---
+import Layout from "@layouts/Layout.astro";
+import type { Project } from "@modules/projects/public";
+import type { NewsItem } from "@modules/news/public";
+import projectsData from "../generated/projects.json";
+import newsData from "../generated/news.json";
+
+const projects = (projectsData as Project[]).slice(0, 6);
+const news = (newsData as NewsItem[])
+  .slice()
+  .sort((a, b) => b.version.localeCompare(a.version))
+  .slice(0, 6);
+---
+<Layout title="MiniDts-Hub">
+  <section class="max-w-7xl mx-auto">
+    <h1 class="text-4xl font-bold mb-6">MiniDts-Hub</h1>
+    <p class="text-slate-300 mb-10">Software y configuraciones minimalistas para Linux.</p>
+
+    <h2 class="text-2xl font-semibold mb-4">Proyectos</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+      {projects.map((p) => (
+        <article class="glass p-6">
+          <h3 class="text-xl font-semibold">{p.title}</h3>
+          <p class="text-slate-300 mt-2">{p.summary}</p>
+          {p.repo_url && <a href={p.repo_url} class="text-sky-400 mt-3 inline-block">Repositorio</a>}
+        </article>
+      ))}
+    </div>
+
+    <h2 class="text-2xl font-semibold mb-4">Novedades</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {news.map((n) => (
+        <article class="glass p-6">
+          <span class="text-xs text-slate-400">{n.version}</span>
+          <h3 class="text-xl font-semibold mt-1">{n.title}</h3>
+          <p class="text-slate-300 mt-2">{n.summary}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>
