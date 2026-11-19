@@ -1,7 +1,7 @@
 id = "ejemplo"
 title = "Ejemplo de proyecto"
 summary = "Un proyecto de ejemplo para validar el loader."
-tags = ["linux", "minimal"]
+tags = ["Linux", "Minimal"]
 repo_url = "https://github.com/davidperalta/MiniDts-Hub"
 featured = false
 created_at = "2026-11-19"

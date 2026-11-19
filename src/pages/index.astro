@@ -24,7 +24,9 @@ const news = (newsData as NewsItem[])
       {projects.map((p) => (
         <article class="glass p-6 transition hover:scale-[1.02] hover:shadow-lg hover:shadow-sky-500/20">
           <h3 class="text-xl font-semibold flex items-center gap-2">{p.title}{p.featured && <span class="text-xs bg-sky-500/30 px-2 py-0.5 rounded">Destacado</span>}</h3>
-          <p class="text-slate-200 mt-2 text-justify">{p.summary}</p>
+          <div class="mt-3 rounded-lg bg-white/5 border border-white/10 p-3">
+            <p class="text-slate-200 text-justify">{p.summary}</p>
+          </div>
           {p.repo_url && <a href={p.repo_url} class="text-sky-400 mt-3 inline-block">Repositorio</a>}
         </article>
       ))}
@@ -36,7 +38,9 @@ const news = (newsData as NewsItem[])
         <article class="glass p-6 transition hover:scale-[1.02] hover:shadow-lg hover:shadow-sky-500/20">
           <span class="text-xs text-slate-400">{n.version}</span>
           <h3 class="text-xl font-semibold mt-1">{n.title}</h3>
-          <p class="text-slate-200 mt-2 text-justify">{n.summary}</p>
+          <div class="mt-3 rounded-lg bg-white/5 border border-white/10 p-3">
+            <p class="text-slate-200 text-justify">{n.summary}</p>
+          </div>
         </article>
       ))}
     </div>
