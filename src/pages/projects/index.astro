@@ -23,9 +23,9 @@ const base = import.meta.env.BASE_URL.endsWith("/")
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="project-grid">
       {projects.map((p) => (
-        <article class="glass p-6 project-card" data-tags={p.tags.join(",")}>
+        <article class="glass p-6 project-card transition hover:scale-[1.02] hover:shadow-lg hover:shadow-sky-500/20" data-tags={p.tags.join(",")}>
           <h2 class="text-xl font-semibold flex items-center gap-2">{p.title}{p.featured && <span class="text-xs bg-sky-500/30 px-2 py-0.5 rounded">Destacado</span>}</h2>
-          <p class="text-slate-300 mt-2">{p.summary}</p>
+          <p class="text-slate-200 mt-2 text-justify">{p.summary}</p>
           <div class="flex flex-wrap gap-2 mt-3">
             {p.tags.map((t) => <span class="text-xs text-slate-400">#{t}</span>)}
           </div>

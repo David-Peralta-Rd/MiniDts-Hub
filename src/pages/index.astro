@@ -22,9 +22,9 @@ const news = (newsData as NewsItem[])
     <h2 class="text-2xl font-semibold mb-4">Proyectos</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
       {projects.map((p) => (
-        <article class="glass p-6">
+        <article class="glass p-6 transition hover:scale-[1.02] hover:shadow-lg hover:shadow-sky-500/20">
           <h3 class="text-xl font-semibold flex items-center gap-2">{p.title}{p.featured && <span class="text-xs bg-sky-500/30 px-2 py-0.5 rounded">Destacado</span>}</h3>
-          <p class="text-slate-300 mt-2">{p.summary}</p>
+          <p class="text-slate-200 mt-2 text-justify">{p.summary}</p>
           {p.repo_url && <a href={p.repo_url} class="text-sky-400 mt-3 inline-block">Repositorio</a>}
         </article>
       ))}
@@ -33,10 +33,10 @@ const news = (newsData as NewsItem[])
     <h2 class="text-2xl font-semibold mb-4">Novedades</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {news.map((n) => (
-        <article class="glass p-6">
+        <article class="glass p-6 transition hover:scale-[1.02] hover:shadow-lg hover:shadow-sky-500/20">
           <span class="text-xs text-slate-400">{n.version}</span>
           <h3 class="text-xl font-semibold mt-1">{n.title}</h3>
-          <p class="text-slate-300 mt-2">{n.summary}</p>
+          <p class="text-slate-200 mt-2 text-justify">{n.summary}</p>
         </article>
       ))}
     </div>

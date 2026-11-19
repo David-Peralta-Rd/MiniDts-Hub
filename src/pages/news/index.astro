@@ -24,10 +24,10 @@ const base = import.meta.env.BASE_URL.endsWith("/")
         .slice()
         .sort((a, b) => b.version.localeCompare(a.version))
         .map((n) => (
-        <article class="glass p-6 news-card" data-year={n.version.split(/[.\-]/)[0].length === 2 ? `20${n.version.split(/[.\-]/)[0]}` : n.version.split(/[.\-]/)[0]}>
+        <article class="glass p-6 news-card transition hover:scale-[1.02] hover:shadow-lg hover:shadow-sky-500/20" data-year={n.version.split(/[.\-]/)[0].length === 2 ? `20${n.version.split(/[.\-]/)[0]}` : n.version.split(/[.\-]/)[0]}>
           <span class="text-xs text-slate-400">{n.version} · {n.category}</span>
           <h2 class="text-xl font-semibold mt-1">{n.title}</h2>
-          <p class="text-slate-300 mt-2">{n.summary}</p>
+          <p class="text-slate-200 mt-2 text-justify">{n.summary}</p>
         </article>
       ))}
     </div>
