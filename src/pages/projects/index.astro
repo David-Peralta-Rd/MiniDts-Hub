@@ -1,17 +1,44 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import type { Project } from "@modules/projects/public";
+import { filterProjects, collectTags } from "@modules/projects/public";
 import projectsData from "../../generated/projects.json";
+
 const projects = projectsData as Project[];
+const activeTag = Astro.url.searchParams.get("tag");
+const visible = filterProjects(projects, activeTag);
+const tags = collectTags(projects);
+const base = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + "/";
 ---
 <Layout title="Proyectos — MiniDts-Hub">
   <section class="max-w-7xl mx-auto">
-    <h1 class="text-4xl font-bold mb-8">Proyectos</h1>
+    <h1 class="text-4xl font-bold mb-4">Proyectos</h1>
+    <div class="flex flex-wrap gap-2 mb-8">
+      <a
+        href={`${base}projects/`}
+        class={`px-3 py-1 rounded-full border border-glass ${!activeTag ? "bg-glass" : ""}`}
+      >
+        Todos
+      </a>
+      {tags.map((t) => (
+        <a
+          href={`${base}projects/?tag=${encodeURIComponent(t)}`}
+          class={`px-3 py-1 rounded-full border border-glass ${activeTag?.toLowerCase() === t.toLowerCase() ? "bg-glass" : ""}`}
+        >
+          {t}
+        </a>
+      ))}
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {projects.map((p) => (
+      {visible.map((p) => (
         <article class="glass p-6">
           <h2 class="text-xl font-semibold">{p.title}</h2>
           <p class="text-slate-300 mt-2">{p.summary}</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            {p.tags.map((t) => <span class="text-xs text-slate-400">#{t}</span>)}
+          </div>
           <div class="flex gap-3 mt-4">
             {p.repo_url && <a href={p.repo_url} class="text-sky-400">Repo</a>}
             {p.demo_url && <a href={p.demo_url} class="text-sky-400">Demo</a>}
@@ -19,5 +46,6 @@ const projects = projectsData as Project[];
         </article>
       ))}
     </div>
+    {visible.length === 0 && <p class="text-slate-400 mt-6">No hay proyectos para este filtro.</p>}
   </section>
 </Layout>
