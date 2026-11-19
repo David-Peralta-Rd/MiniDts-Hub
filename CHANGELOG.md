@@ -9,3 +9,4 @@
 - docs-check (Python).
 - Filtro por tags en Proyectos (T03).
 - Paginación de novedades por año (T04).
+- i18n (ES/EN) con selector de idioma en navegación.
