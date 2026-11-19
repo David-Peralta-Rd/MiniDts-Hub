@@ -1,12 +1,10 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import type { Project } from "@modules/projects/public";
-import { filterProjects, collectTags } from "@modules/projects/public";
+import { collectTags } from "@modules/projects/public";
 import projectsData from "../../generated/projects.json";
 
 const projects = projectsData as Project[];
-const activeTag = Astro.url.searchParams.get("tag");
-const visible = filterProjects(projects, activeTag);
 const tags = collectTags(projects);
 const base = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
@@ -15,25 +13,15 @@ const base = import.meta.env.BASE_URL.endsWith("/")
 <Layout title="Proyectos — MiniDts-Hub">
   <section class="max-w-7xl mx-auto">
     <h1 class="text-4xl font-bold mb-4">Proyectos</h1>
-    <div class="flex flex-wrap gap-2 mb-8">
-      <a
-        href={`${base}projects/`}
-        class={`px-3 py-1 rounded-full border border-glass ${!activeTag ? "bg-glass" : ""}`}
-      >
-        Todos
-      </a>
+    <div class="flex flex-wrap gap-2 mb-8" id="tag-chips">
+      <a href={`${base}projects/`} data-tag="" class="tag-chip px-3 py-1 rounded-full border border-glass">Todos</a>
       {tags.map((t) => (
-        <a
-          href={`${base}projects/?tag=${encodeURIComponent(t)}`}
-          class={`px-3 py-1 rounded-full border border-glass ${activeTag?.toLowerCase() === t.toLowerCase() ? "bg-glass" : ""}`}
-        >
-          {t}
-        </a>
+        <a href={`${base}projects/?tag=${encodeURIComponent(t)}`} data-tag={t} class="tag-chip px-3 py-1 rounded-full border border-glass">{t}</a>
       ))}
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {visible.map((p) => (
-        <article class="glass p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="project-grid">
+      {projects.map((p) => (
+        <article class="glass p-6 project-card" data-tags={p.tags.join(",")}>
           <h2 class="text-xl font-semibold">{p.title}</h2>
           <p class="text-slate-300 mt-2">{p.summary}</p>
           <div class="flex flex-wrap gap-2 mt-3">
@@ -46,6 +34,25 @@ const base = import.meta.env.BASE_URL.endsWith("/")
         </article>
       ))}
     </div>
-    {visible.length === 0 && <p class="text-slate-400 mt-6">No hay proyectos para este filtro.</p>}
+    <p id="empty-msg" class="text-slate-400 mt-6 hidden">No hay proyectos para este filtro.</p>
   </section>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const active = (params.get("tag") || "").toLowerCase();
+    const chips = document.querySelectorAll(".tag-chip");
+    chips.forEach((c) => {
+      const t = (c.getAttribute("data-tag") || "").toLowerCase();
+      if (t === active) c.classList.add("bg-glass", "ring-2", "ring-sky-400");
+    });
+    const cards = document.querySelectorAll(".project-card");
+    let visible = 0;
+    cards.forEach((card) => {
+      const tags = (card.getAttribute("data-tags") || "").toLowerCase().split(",");
+      const show = !active || tags.includes(active);
+      (card as HTMLElement).style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+    const empty = document.getElementById("empty-msg");
+    if (empty && visible === 0) empty.classList.remove("hidden");
+  </script>
 </Layout>

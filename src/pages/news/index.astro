@@ -1,12 +1,10 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import type { NewsItem } from "@modules/news/public";
-import { filterNewsByYear, groupNewsByYear } from "@modules/news/public";
+import { groupNewsByYear } from "@modules/news/public";
 import newsData from "../../generated/news.json";
 
 const items = newsData as NewsItem[];
-const activeYear = Astro.url.searchParams.get("year");
-const visible = filterNewsByYear(items, activeYear);
 const groups = groupNewsByYear(items);
 const base = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
@@ -15,34 +13,40 @@ const base = import.meta.env.BASE_URL.endsWith("/")
 <Layout title="Novedades — MiniDts-Hub">
   <section class="max-w-7xl mx-auto">
     <h1 class="text-4xl font-bold mb-4">Novedades</h1>
-    <div class="flex flex-wrap gap-2 mb-8">
-      <a
-        href={`${base}news/`}
-        class={`px-3 py-1 rounded-full border border-glass ${!activeYear ? "bg-glass" : ""}`}
-      >
-        Todos
-      </a>
+    <div class="flex flex-wrap gap-2 mb-8" id="year-chips">
+      <a href={`${base}news/`} data-year="" class="year-chip px-3 py-1 rounded-full border border-glass">Todos</a>
       {groups.map((g) => (
-        <a
-          href={`${base}news/?year=${encodeURIComponent(g.year)}`}
-          class={`px-3 py-1 rounded-full border border-glass ${activeYear === g.year ? "bg-glass" : ""}`}
-        >
-          {g.year}
-        </a>
+        <a href={`${base}news/?year=${encodeURIComponent(g.year)}`} data-year={g.year} class="year-chip px-3 py-1 rounded-full border border-glass">{g.year}</a>
       ))}
     </div>
-    <div class="space-y-6">
-      {visible
+    <div class="space-y-6" id="news-list">
+      {items
         .slice()
         .sort((a, b) => b.version.localeCompare(a.version))
         .map((n) => (
-        <article class="glass p-6">
+        <article class="glass p-6 news-card" data-year={n.version.split(/[.\-]/)[0].length === 2 ? `20${n.version.split(/[.\-]/)[0]}` : n.version.split(/[.\-]/)[0]}>
           <span class="text-xs text-slate-400">{n.version} · {n.category}</span>
           <h2 class="text-xl font-semibold mt-1">{n.title}</h2>
           <p class="text-slate-300 mt-2">{n.summary}</p>
         </article>
       ))}
     </div>
-    {visible.length === 0 && <p class="text-slate-400 mt-6">No hay novedades para este año.</p>}
+    <p id="empty-msg" class="text-slate-400 mt-6 hidden">No hay novedades para este año.</p>
   </section>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const active = params.get("year") || "";
+    document.querySelectorAll(".year-chip").forEach((c) => {
+      if ((c.getAttribute("data-year") || "") === active) c.classList.add("bg-glass", "ring-2", "ring-sky-400");
+    });
+    let visible = 0;
+    document.querySelectorAll(".news-card").forEach((card) => {
+      const y = card.getAttribute("data-year") || "";
+      const show = !active || y === active;
+      (card as HTMLElement).style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+    const empty = document.getElementById("empty-msg");
+    if (empty && visible === 0) empty.classList.remove("hidden");
+  </script>
 </Layout>
