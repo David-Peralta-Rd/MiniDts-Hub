@@ -5,7 +5,10 @@ import type { NewsItem } from "@modules/news/public";
 import projectsData from "../generated/projects.json";
 import newsData from "../generated/news.json";
 
-const projects = (projectsData as Project[]).slice(0, 6);
+const projects = (projectsData as Project[])
+  .slice()
+  .sort((a, b) => Number(b.featured) - Number(a.featured))
+  .slice(0, 6);
 const news = (newsData as NewsItem[])
   .slice()
   .sort((a, b) => b.version.localeCompare(a.version))
@@ -20,7 +23,7 @@ const news = (newsData as NewsItem[])
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
       {projects.map((p) => (
         <article class="glass p-6">
-          <h3 class="text-xl font-semibold">{p.title}</h3>
+          <h3 class="text-xl font-semibold flex items-center gap-2">{p.title}{p.featured && <span class="text-xs bg-sky-500/30 px-2 py-0.5 rounded">Destacado</span>}</h3>
           <p class="text-slate-300 mt-2">{p.summary}</p>
           {p.repo_url && <a href={p.repo_url} class="text-sky-400 mt-3 inline-block">Repositorio</a>}
         </article>
