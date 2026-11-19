@@ -7,10 +7,10 @@ Cada tarea: menos de 2 horas, toca un solo módulo y como máximo 3 archivos fue
 
 | ID | Hito | Tipo | Nivel | Depende | Módulo | Título | Estado |
 |----|------|------|-------|---------|--------|--------|--------|
-| T01 | 0 | [YO] | 3 | — | — | Activar el esqueleto andante (Astro dev/build, Home con proyectos y novedades) | pendiente |
-| T02 | 0 | [YO] | 3 | T01 | — | Revisar entrypoints, configs, dependencias y amenazas | pendiente |
-| T03 | 1 | [DELEGAR] | 2 | T02 | projects | Añadir filtros por tags en Proyectos | pendiente |
-| T04 | 1 | [DELEGAR] | 2 | T02 | news | Paginación de novedades por año | pendiente |
+| T01 | 0 | [YO] | 3 | — | — | Activar el esqueleto andante (Astro dev/build, Home con proyectos y novedades) | completo |
+| T02 | 0 | [YO] | 3 | T01 | — | Revisar entrypoints, configs, dependencias y amenazas | completo |
+| T03 | 1 | [DELEGAR] | 2 | T02 | projects | Añadir filtros por tags en Proyectos | completo |
+| T04 | 1 | [DELEGAR] | 2 | T02 | news | Paginación de novedades por año | completo |
 
 Convenciones:
 - Nivel 1 (mecánica): esquemas, CRUD sobre un patrón existente, ajustes de Docker, refactors acotados, documentos de unidad. Modelo económico.
