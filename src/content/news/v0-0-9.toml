@@ -1,6 +1,8 @@
 id = "v0-0-9"
 title = "v0.0.9 — primer borrador"
+title_en = "v0.0.9 — first draft"
 summary = "Versión anterior de prueba."
+summary_en = "Previous test version."
 version = "25.05.01"
 category = "release"
 tags = ["release"]

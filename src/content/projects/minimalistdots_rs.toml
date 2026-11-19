@@ -1,6 +1,8 @@
 id = "minimalistdots_rs"
 title = "MinimalistDots_Rs"
 summary = "Entorno Linux para Hyprland (CachyOS/Arch) con instalación en un comando, servicios en Lua y una capa de IA que ejecuta un modelo de 30B en CPU, lo expone con una API compatible con OpenAI y lo conecta a agentes de código. Migrado a Rust (md, md-core, md-ui) para máxima velocidad."
+summary_en = "Linux environment for Hyprland (CachyOS/Arch) with one-command installation, Lua services, and an AI layer that runs a 30B model on CPU, exposes an OpenAI-compatible API, and connects to coding agents. Migrated to Rust (md, md-core, md-ui) for maximum speed."
+description_en = "Linux · AI local. Language: Rust. Includes Lua services, an AI layer with a 30B model on CPU, and an OpenAI-compatible API connected to coding agents."
 tags = ["Linux"]
 repo_url = "https://github.com/David-Peralta-Rd/MinimalistDots_Rs"
 featured = true

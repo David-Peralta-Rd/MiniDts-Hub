@@ -1,6 +1,8 @@
 id = "v0-1-0"
 title = "v0.1.0 — estructura inicial"
+title_en = "v0.1.0 — initial structure"
 summary = "Primera versión del sitio."
+summary_en = "First version of the site."
 version = "26.11.19"
 category = "release"
 tags = ["release"]
